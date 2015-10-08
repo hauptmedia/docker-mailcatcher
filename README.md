@@ -5,6 +5,6 @@ This docker container can be use to receive emails via SMTP and route all incomi
 ## Example Run
 
 ```bash
-docker run -d -p 25:25 -e MAILCATCHER_USERNAME=mailcatcher -e MAILCATCHER_PASSWORD=mailcatcher hauptmedia/mailcatcher
+docker run -d --net host -e MAILCATCHER_USERNAME=mailcatcher -e MAILCATCHER_PASSWORD=mailcatcher hauptmedia/mailcatcher
 ```
 

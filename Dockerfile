@@ -15,8 +15,8 @@ ENTRYPOINT ["/usr/local/sbin/docker-entrypoint.sh"]
 
 ADD	etc/supervisor/conf.d/ /etc/supervisor/conf.d/
 
-# 25/smtp 
-EXPOSE	25
+# 25/smtp 143/imap 
+EXPOSE	25 143
 
 CMD	["/usr/bin/supervisord"]
 

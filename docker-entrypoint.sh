@@ -1,5 +1,8 @@
 #!/bin/bash
 
+rundir_courier="/var/run/courier"
+rundir="/var/run/courier/authdaemon"
+
 MAILCATCHER_HOSTNAME=$(hostname)
 MAILCATCHER_USERNAME=${MAILCATCHER_USERNAME:-mailcatcher}
 MAILCATCHER_PASSWORD=${MAILCATCHER_PASSWORD:-mailcatcher}
@@ -30,7 +33,17 @@ EOF
 
 sed -i -e"s/  data = :fail: Mailing to remote domains not supported/  data = ${MAILCATCHER_USERNAME}@${MAILCATCHER_HOSTNAME}/" /etc/exim4/conf.d/router/200_exim4-config_primary
 
-#update-exim4.conf.template -r
 update-exim4.conf
+
+
+if [ ! -d "$rundir_courier" ]; then
+	mkdir -m 0775 $rundir_courier
+	chown daemon:daemon $rundir_courier
+fi
+
+if [ ! -d "$rundir" ]; then
+	mkdir -m 0750 $rundir 
+	chown daemon:daemon $rundir
+fi
 
 exec "$@"
