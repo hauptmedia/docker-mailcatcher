@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MAILCATCHER_HOSTNAME=${MAILCATCHER_HOSTNAME:-mailcatcher}
+MAILCATCHER_HOSTNAME=$(hostname)
 MAILCATCHER_USERNAME=${MAILCATCHER_USERNAME:-mailcatcher}
 MAILCATCHER_PASSWORD=${MAILCATCHER_PASSWORD:-mailcatcher}
 
@@ -10,7 +10,8 @@ useradd --shell /bin/sh -d /home/$MAILCATCHER_USERNAME --password $CRYPTED_PASSW
 chown -R $MAILCATCHER_USERNAME:$MAILCATCHER_USERNAME /home/$MAILCATCHER_USERNAME
 
 # configure exim4
-echo $MAILCATCHER_HOSTNAME >/etc/mailname && \
+echo $MAILCATCHER_HOSTNAME >/etc/mailname
+
 cat >/etc/exim4/update-exim4.conf.conf<<EOF
 dc_eximconfig_configtype='local'
 dc_other_hostnames=''
@@ -26,8 +27,10 @@ dc_hide_mailname=''
 dc_mailname_in_oh='true'
 dc_localdelivery='maildir_home'
 EOF
-update-exim4.conf && \
+
 sed -i -e"s/  data = :fail: Mailing to remote domains not supported/  data = ${MAILCATCHER_USERNAME}@${MAILCATCHER_HOSTNAME}/" /etc/exim4/conf.d/router/200_exim4-config_primary
 
+#update-exim4.conf.template -r
+update-exim4.conf
 
 exec "$@"
