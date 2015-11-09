@@ -23,11 +23,11 @@ echo $MAILCATCHER_HOSTNAME >/etc/mailname
 cat >/etc/exim4/update-exim4.conf.conf<<EOF
 dc_eximconfig_configtype='local'
 dc_other_hostnames=''
-dc_local_interfaces='127.0.0.1 ; ::1'
+dc_local_interfaces='0.0.0.0'
 dc_readhost=''
 dc_relay_domains=''
 dc_minimaldns='false'
-dc_relay_nets=''
+dc_relay_nets='127.0.0.1;10.0.0.0/8;172.16.0.0/12;192.168.0.0/16'
 dc_smarthost=''
 CFILEMODE='644'
 dc_use_split_config='true'
@@ -37,9 +37,6 @@ dc_localdelivery='maildir_home'
 EOF
 
 sed -i -e"s/  data = :fail: Mailing to remote domains not supported/  data = ${MAILCATCHER_USERNAME}@${MAILCATCHER_HOSTNAME}/" /etc/exim4/conf.d/router/200_exim4-config_primary
-
-# listen on all interfaces
-sed -i -e "s/dc_local_interfaces=.*/dc_local_interfaces='0.0.0.0'/" /etc/exim4/update-exim4.conf.conf
 
 update-exim4.conf
 
