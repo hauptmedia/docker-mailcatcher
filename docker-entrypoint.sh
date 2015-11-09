@@ -1,5 +1,10 @@
 #!/bin/bash
 
+IP=$(hostname --ip-address | cut -d" " -f1)
+
+echo Running mailcatcher on ip $IP
+echo
+
 rundir_courier="/var/run/courier"
 rundir="/var/run/courier/authdaemon"
 
