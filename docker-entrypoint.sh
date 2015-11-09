@@ -46,4 +46,9 @@ if [ ! -d "$rundir" ]; then
 	chown daemon:daemon $rundir
 fi
 
+if [ ! -d /home/$MAILCATCHER_USERNAME/Maildir ]; then
+	# send an email to force the creation of a Maildir directory
+	echo "Hello World" | mail $MAILCATCHER_USERNAME@$(hostname)
+fi
+
 exec "$@"
