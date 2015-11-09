@@ -38,6 +38,9 @@ EOF
 
 sed -i -e"s/  data = :fail: Mailing to remote domains not supported/  data = ${MAILCATCHER_USERNAME}@${MAILCATCHER_HOSTNAME}/" /etc/exim4/conf.d/router/200_exim4-config_primary
 
+# listen on all interfaces
+sed -i -e "s/dc_local_interfaces=.*/dc_local_interfaces='0.0.0.0'/" /etc/exim4/update-exim4.conf.conf
+
 update-exim4.conf
 
 
